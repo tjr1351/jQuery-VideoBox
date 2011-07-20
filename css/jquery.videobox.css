@@ -29,14 +29,14 @@
 	line-height: 0;
 }
 #jquery-lightbox a img { border: none; }
-#lightbox-container-image-box {
+#lightbox-container-video-box {
 	position: relative;
 	background-color: #fff;
 	width: 250px;
 	height: 250px;
 	margin: 0 auto;
 }
-#lightbox-container-image { padding: 10px; }
+#lightbox-container-video { padding: 10px; }
 #lightbox-loading {
 	position: absolute;
 	top: 40%;
@@ -54,7 +54,7 @@
 	width: 100%;
 	z-index: 10;
 }
-#lightbox-container-image-box > #lightbox-nav { left: 0; }
+#lightbox-container-video-box > #lightbox-nav { left: 0; }
 #lightbox-nav a { outline: none;}
 #lightbox-nav-btnPrev, #lightbox-nav-btnNext {
 	width: 49%;
@@ -70,7 +70,7 @@
 	right: 0; 
 	float: right;
 }
-#lightbox-container-image-data-box {
+#lightbox-container-video-data-box {
 	font: 10px Verdana, Helvetica, sans-serif;
 	background-color: #fff;
 	margin: 0 auto;
@@ -79,22 +79,22 @@
 	width: 100%;
 	padding: 0 10px 0;
 }
-#lightbox-container-image-data {
+#lightbox-container-video-data {
 	padding: 0 10px; 
 	color: #666; 
 }
-#lightbox-container-image-data #lightbox-image-details { 
+#lightbox-container-video-data #lightbox-video-details { 
 	width: 70%; 
 	float: left; 
 	text-align: left; 
 }	
-#lightbox-image-details-caption { font-weight: bold; }
-#lightbox-image-details-currentNumber {
+#lightbox-video-details-caption { font-weight: bold; }
+#lightbox-video-details-currentNumber {
 	display: block; 
 	clear: left; 
 	padding-bottom: 1.0em;	
 }			
-#lightbox-image {
+#lightbox-video {
 	width: 640px;
 	height: 400px;
 }
