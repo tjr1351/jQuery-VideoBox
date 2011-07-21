@@ -17,7 +17,7 @@
 	 *
 	 */
 	$.fn.videoBox = function(settings) {
-		// Settings to configure the jQuery lightBox plugin how you like
+		// Settings to configure the jQuery videoBox plugin how you like
 		settings = jQuery.extend({
 			// Configuration related to overlay
 			overlayBgColor: 		'#000',		// (string) Background color to overlay; inform a hexadecimal value like: #RRGGBB. Where RR, GG, and BB are the hexadecimal values for the red, green, and blue values of the color.
@@ -25,21 +25,23 @@
 			// Configuration related to navigation
 			fixedNavigation:		false,		// (boolean) Boolean that informs if the navigation (next and prev button) will be fixed or not in the interface.
 			// Configuration related to videos
-			imageLoading:			'media/images/lightbox-ico-loading.gif',		// (string) Path and the name of the loading icon
-			imageBtnPrev:			'media/images/lightbox-btn-prev.gif',			// (string) Path and the name of the prev button image
-			imageBtnNext:			'media/images/lightbox-btn-next.gif',			// (string) Path and the name of the next button image
-			imageBtnClose:			'media/images/lightbox-btn-close.gif',		// (string) Path and the name of the close btn
-			imageBlank:				'media/images/lightbox-blank.gif',			// (string) Path and the name of a blank image (one pixel)
+			imageLoading:			'media/images/videobox-ico-loading.gif',		// (string) Path and the name of the loading icon
+			imageBtnPrev:			'media/images/videobox-btn-prev.gif',			// (string) Path and the name of the prev button image
+			imageBtnNext:			'media/images/videobox-btn-next.gif',			// (string) Path and the name of the next button image
+			imageBtnClose:			'media/images/videobox-btn-close.gif',		// (string) Path and the name of the close btn
+			imageBlank:				'media/images/videobox-blank.gif',			// (string) Path and the name of a blank image (one pixel)
 			// Configuration related to container video box
-			containerBorderSize:	10,			// (integer) If you adjust the padding in the CSS for the container, #lightbox-container-video-box, you will need to update this value
+			containerBorderSize:	10,			// (integer) If you adjust the padding in the CSS for the container, #videobox-container-video-box, you will need to update this value
 			containerResizeSpeed:	1,		// (integer) Specify the resize duration of container video. These number are miliseconds. 400 is default.
 			// Configuration related to keyboard navigation
-			keyToClose:				'c',		// (string) (c = close) Letter to close the jQuery lightBox interface. Beyond this letter, the letter X and the SCAPE key is used to.
+			keyToClose:				'c',		// (string) (c = close) Letter to close the jQuery videoBox interface. Beyond this letter, the letter X and the SCAPE key is used to.
 			keyToPrev:				'p',		// (string) (p = previous) Letter to show the previous video
 			keyToNext:				'n',		// (string) (n = next) Letter to show the next video.
 			// Don´t alter these variables in any way
 			videoArray:				[],
-			activeVideo:			0
+			activeVideo:			0,
+			// Toggle Navigation
+			navigation: false
 		},settings);
 		// Caching the jQuery object with all elements matched
 		var jQueryMatchedObj = this; // This, in this context, refer to jQuery object
@@ -53,7 +55,7 @@
 			return false; // Avoid the browser following the link
 		}
 		/**
-		 * Start the jQuery lightBox plugin
+		 * Start the jQuery videoBox plugin
 		 *
 		 * @param object objClicked The object (link) whick the user have clicked
 		 * @param object jQueryMatchedObj The jQuery object with all elements matched
@@ -83,34 +85,34 @@
 			_set_video_to_view();
 		}
 		/**
-		 * Create the jQuery lightBox plugin interface
+		 * Create the jQuery videoBox plugin interface
 		 *
 		 * The HTML markup will be like that:
 			<div id="jquery-overlay"></div>
-			<div id="jquery-lightbox">
-				<div id="lightbox-container-video-box">
-					<div id="lightbox-container-video">
-						<img src="../fotos/XX.jpg" id="lightbox-video">
-						<div id="lightbox-nav">
-							<a href="#" id="lightbox-nav-btnPrev"></a>
-							<a href="#" id="lightbox-nav-btnNext"></a>
+			<div id="jquery-videobox">
+				<div id="videobox-container-video-box">
+					<div id="videobox-container-video">
+						<img src="../fotos/XX.jpg" id="videobox-video">
+						<div id="videobox-nav">
+							<a href="#" id="videobox-nav-btnPrev"></a>
+							<a href="#" id="videobox-nav-btnNext"></a>
 						</div>
-						<div id="lightbox-loading">
-							<a href="#" id="lightbox-loading-link">
-								<img src="../videos/lightbox-ico-loading.gif">
+						<div id="videobox-loading">
+							<a href="#" id="videobox-loading-link">
+								<img src="../videos/videobox-ico-loading.gif">
 							</a>
 						</div>
 					</div>
 				</div>
-				<div id="lightbox-container-video-data-box">
-					<div id="lightbox-container-video-data">
-						<div id="lightbox-video-details">
-							<span id="lightbox-video-details-caption"></span>
-							<span id="lightbox-video-details-currentNumber"></span>
+				<div id="videobox-container-video-data-box">
+					<div id="videobox-container-video-data">
+						<div id="videobox-video-details">
+							<span id="videobox-video-details-caption"></span>
+							<span id="videobox-video-details-currentNumber"></span>
 						</div>
-						<div id="lightbox-secNav">
-							<a href="#" id="lightbox-secNav-btnClose">
-								<img src="../videos/lightbox-btn-close.gif">
+						<div id="videobox-secNav">
+							<a href="#" id="videobox-secNav-btnClose">
+								<img src="../videos/videobox-btn-close.gif">
 							</a>
 						</div>
 					</div>
@@ -120,7 +122,7 @@
 		 */
 		function _set_interface() {
 			// Apply the HTML markup into body tag
-			$('body').append('<div id="jquery-overlay"></div><div id="jquery-lightbox"><div id="lightbox-container-video-box"><div id="lightbox-container-video"><video autoplay="" controls=""id="lightbox-video"><source id="source1" type=\'video/mp4; codecs="avc1.42E01E, mp4a.40.2"\' /><source id="source2" type=\'video/webm; codecs="vp8, vorbis"\' /><source id="source3" type=\'video/ogg; codecs="theora, vorbis"\' /></video><div style="" id="lightbox-nav"><a href="#" id="lightbox-nav-btnPrev"></a><a href="#" id="lightbox-nav-btnNext"></a></div><div id="lightbox-loading"><a href="#" id="lightbox-loading-link"><img src="' + settings.imageLoading + '"></a></div></div></div><div id="lightbox-container-video-data-box"><div id="lightbox-container-video-data"><div id="lightbox-video-details"><span id="lightbox-video-details-caption"></span><span id="lightbox-video-details-currentNumber"></span></div><div id="lightbox-secNav"><a href="#" id="lightbox-secNav-btnClose"><img src="' + settings.imageBtnClose + '"></a></div></div></div></div>');	
+			$('body').append('<div id="jquery-overlay"></div><div id="jquery-videobox"><div id="videobox-container-video-box"><div id="videobox-container-video"><video autoplay="" controls=""id="videobox-video"><source id="source1" type=\'video/mp4; codecs="avc1.42E01E, mp4a.40.2"\' /><source id="source2" type=\'video/webm; codecs="vp8, vorbis"\' /><source id="source3" type=\'video/ogg; codecs="theora, vorbis"\' /></video><div style="" id="videobox-nav"><a href="#" id="videobox-nav-btnPrev"></a><a href="#" id="videobox-nav-btnNext"></a></div><div id="videobox-loading"><a href="#" id="videobox-loading-link"><img src="' + settings.imageLoading + '"></a></div></div></div><div id="videobox-container-video-data-box"><div id="videobox-container-video-data"><div id="videobox-video-details"><span id="videobox-video-details-caption"></span><span id="videobox-video-details-currentNumber"></span></div><div id="videobox-secNav"><a href="#" id="videobox-secNav-btnClose"><img src="' + settings.imageBtnClose + '"></a></div></div></div></div>');	
 			// Get page sizes
 			var arrPageSizes = ___getPageSize();
 			// Style overlay and show it
@@ -132,17 +134,17 @@
 			}).fadeIn();
 			// Get page scroll
 			var arrPageScroll = ___getPageScroll();
-			// Calculate top and left offset for the jquery-lightbox div object and show it
-			$('#jquery-lightbox').css({
+			// Calculate top and left offset for the jquery-videobox div object and show it
+			$('#jquery-videobox').css({
 				top:	arrPageScroll[1] + (arrPageSizes[3] / 10),
 				left:	arrPageScroll[0]
 			}).show();
 			// Assigning click events in elements to close overlay
-			$('#jquery-overlay,#jquery-lightbox').click(function() {
+			$('#jquery-overlay,#jquery-videobox').click(function() {
 				_finish();									
 			});
-			// Assign the _finish function to lightbox-loading-link and lightbox-secNav-btnClose objects
-			$('#lightbox-loading-link,#lightbox-secNav-btnClose').click(function() {
+			// Assign the _finish function to videobox-loading-link and videobox-secNav-btnClose objects
+			$('#videobox-loading-link,#videobox-secNav-btnClose').click(function() {
 				_finish();
 				return false;
 			});
@@ -157,8 +159,8 @@
 				});
 				// Get page scroll
 				var arrPageScroll = ___getPageScroll();
-				// Calculate top and left offset for the jquery-lightbox div object and show it
-				$('#jquery-lightbox').css({
+				// Calculate top and left offset for the jquery-videobox div object and show it
+				$('#jquery-videobox').css({
 					top:	arrPageScroll[1] + (arrPageSizes[3] / 10),
 					left:	arrPageScroll[0]
 				});
@@ -170,17 +172,17 @@
 		 */
 		function _set_video_to_view() { // show the loading
 			// Show the loading
-			$('#lightbox-loading').show();
+			$('#videobox-loading').show();
 			if ( settings.fixedNavigation ) {
-				$('#lightbox-video,#lightbox-container-video-data-box,#lightbox-video-details-currentNumber').hide();
+				$('#videobox-video,#videobox-container-video-data-box,#videobox-video-details-currentNumber').hide();
 			} else {
 				// Hide some elements
-				$('#lightbox-video,#lightbox-nav,#lightbox-nav-btnPrev,#lightbox-nav-btnNext,#lightbox-container-video-data-box,#lightbox-video-details-currentNumber').hide();
+				$('#videobox-video,#videobox-nav,#videobox-nav-btnPrev,#videobox-nav-btnNext,#videobox-container-video-data-box,#videobox-video-details-currentNumber').hide();
 			}
 			$('#source1').attr('src',settings.videoArray[settings.activeVideo][0] + ".mp4");
 			$('#source2').attr('src',settings.videoArray[settings.activeVideo][0] + ".webm");
 			$('#source2').attr('src',settings.videoArray[settings.activeVideo][0] + ".ogv");
-			$('#lightbox-video').show();
+			$('#videobox-video').show();
 			_resize_container_video_box(640, 400);
 		};
 		/**
@@ -191,8 +193,8 @@
 		 */
 		function _resize_container_video_box(intVideoWidth,intVideoHeight) {
 			// Get current width and height
-			var intCurrentWidth = $('#lightbox-container-video-box').width();
-			var intCurrentHeight = $('#lightbox-container-video-box').height();
+			var intCurrentWidth = $('#videobox-container-video-box').width();
+			var intCurrentHeight = $('#videobox-container-video-box').height();
 			// Get the width and height of the selected video plus the padding
 			var intWidth = (intVideoWidth + (settings.containerBorderSize * 2)); // Plus the video´s width and the left and right padding value
 			var intHeight = (intVideoHeight + (settings.containerBorderSize * 2)); // Plus the video´s height and the left and right padding value
@@ -200,7 +202,7 @@
 			var intDiffW = intCurrentWidth - intWidth;
 			var intDiffH = intCurrentHeight - intHeight;
 			// Perfomance the effect
-			$('#lightbox-container-video-box').animate({ width: intWidth, height: intHeight },settings.containerResizeSpeed,function() { _show_video(); });
+			$('#videobox-container-video-box').animate({ width: intWidth, height: intHeight },settings.containerResizeSpeed,function() { _show_video(); });
 			if ( ( intDiffW == 0 ) && ( intDiffH == 0 ) ) {
 				if ( $.browser.msie ) {
 					___pause(250);
@@ -208,16 +210,16 @@
 					___pause(100);	
 				}
 			} 
-			$('#lightbox-container-video-data-box').css({ width: intVideoWidth });
-			$('#lightbox-nav-btnPrev,#lightbox-nav-btnNext').css({ height: intVideoHeight + (settings.containerBorderSize * 2) });
+			$('#videobox-container-video-data-box').css({ width: intVideoWidth });
+			$('#videobox-nav-btnPrev,#videobox-nav-btnNext').css({ height: intVideoHeight + (settings.containerBorderSize * 2) });
 		};
 		/**
 		 * Show the prepared video
 		 *
 		 */
 		function _show_video() {
-			$('#lightbox-loading').hide();
-			$('#lightbox-video').fadeIn(function() {
+			$('#videobox-loading').hide();
+			$('#videobox-video').fadeIn(function() {
 				_show_video_data();
 				_set_navigation();
 			});
@@ -228,11 +230,11 @@
 		 *
 		 */
 		function _show_video_data() {
-			$('#lightbox-container-video-data-box').slideDown('fast');
-			$('#lightbox-video-details-caption').hide();
+			$('#videobox-container-video-data-box').slideDown('fast');
+			$('#videobox-video-details-caption').hide();
 			console.log(settings.videoArray[settings.activeVideo][1]);
 			if ( settings.videoArray[settings.activeVideo][1] ) {
-				$('#lightbox-video-details-caption').html(settings.videoArray[settings.activeVideo][1]).show();
+				$('#videobox-video-details-caption').html(settings.videoArray[settings.activeVideo][1]).show();
 			}	
 		}
 		/**
@@ -240,15 +242,15 @@
 		 *
 		 */
 		function _set_navigation() {
-			$('#lightbox-nav').show();
+			$('#videobox-nav').show();
 
 			// Instead to define this configuration in CSS file, we define here. And it´s need to IE. Just.
-			$('#lightbox-nav-btnPrev,#lightbox-nav-btnNext').css({ 'background' : 'transparent url(' + settings.imageBlank + ') no-repeat' });
+			$('#videobox-nav-btnPrev,#videobox-nav-btnNext').css({ 'background' : 'transparent url(' + settings.imageBlank + ') no-repeat' });
 			
 			// Show the prev button, if not the first video in set
-			if ( settings.activeVideo != 0 ) {
+			if ( settings.activeVideo != 0 && settings.navigation ) {
 				if ( settings.fixedNavigation ) {
-					$('#lightbox-nav-btnPrev').css({ 'background' : 'url(' + settings.imageBtnPrev + ') left 15% no-repeat' })
+					$('#videobox-nav-btnPrev').css({ 'background' : 'url(' + settings.imageBtnPrev + ') left 15% no-repeat' })
 						.unbind()
 						.bind('click',function() {
 							settings.activeVideo = settings.activeVideo - 1;
@@ -257,7 +259,7 @@
 						});
 				} else {
 					// Show the videos button for Next buttons
-					$('#lightbox-nav-btnPrev').unbind().hover(function() {
+					$('#videobox-nav-btnPrev').unbind().hover(function() {
 						$(this).css({ 'background' : 'url(' + settings.imageBtnPrev + ') left 15% no-repeat' });
 					},function() {
 						$(this).css({ 'background' : 'transparent url(' + settings.imageBlank + ') no-repeat' });
@@ -270,9 +272,9 @@
 			}
 			
 			// Show the next button, if not the last video in set
-			if ( settings.activeVideo != ( settings.videoArray.length -1 ) ) {
+			if ( settings.activeVideo != ( settings.videoArray.length -1 ) && settings.navigation ) {
 				if ( settings.fixedNavigation ) {
-					$('#lightbox-nav-btnNext').css({ 'background' : 'url(' + settings.imageBtnNext + ') right 15% no-repeat' })
+					$('#videobox-nav-btnNext').css({ 'background' : 'url(' + settings.imageBtnNext + ') right 15% no-repeat' })
 						.unbind()
 						.bind('click',function() {
 							settings.activeVideo = settings.activeVideo + 1;
@@ -281,7 +283,7 @@
 						});
 				} else {
 					// Show the videos button for Next buttons
-					$('#lightbox-nav-btnNext').unbind().hover(function() {
+					$('#videobox-nav-btnNext').unbind().hover(function() {
 						$(this).css({ 'background' : 'url(' + settings.imageBtnNext + ') right 15% no-repeat' });
 					},function() {
 						$(this).css({ 'background' : 'transparent url(' + settings.imageBlank + ') no-repeat' });
@@ -293,7 +295,9 @@
 				}
 			}
 			// Enable keyboard navigation
-			_enable_keyboard_navigation();
+			if ( settings.navigation ) {
+				_enable_keyboard_navigation();
+			}
 		}
 		/**
 		 * Enable a support to keyboard navigation
@@ -365,11 +369,11 @@
 			}
 		}
 		/**
-		 * Remove jQuery lightBox plugin HTML markup
+		 * Remove jQuery videoBox plugin HTML markup
 		 *
 		 */
 		function _finish() {
-			$('#jquery-lightbox').remove();
+			$('#jquery-videobox').remove();
 			$('#jquery-overlay').fadeOut(function() { $('#jquery-overlay').remove(); });
 			// Show some elements to avoid conflict with overlay in IE. These elements appear above the overlay.
 			$('embed, object, select').css({ 'visibility' : 'visible' });
