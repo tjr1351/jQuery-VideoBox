@@ -92,7 +92,11 @@
 			<div id="jquery-videobox">
 				<div id="videobox-container-video-box">
 					<div id="videobox-container-video">
-						<img src="../fotos/XX.jpg" id="videobox-video">
+						<video autoplay="" controls="" id="videobox-video">
+							<source id="source1" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"' />
+							<source id="source2" type='video/webm; codecs="vp8, vorbis"' />
+							<source id="source3" type='video/ogg; codecs="theora, vorbis"' />
+						</video>
 						<div id="videobox-nav">
 							<a href="#" id="videobox-nav-btnPrev"></a>
 							<a href="#" id="videobox-nav-btnNext"></a>
@@ -122,7 +126,7 @@
 		 */
 		function _set_interface() {
 			// Apply the HTML markup into body tag
-			$('body').append('<div id="jquery-overlay"></div><div id="jquery-videobox"><div id="videobox-container-video-box"><div id="videobox-container-video"><video autoplay="" controls=""id="videobox-video"><source id="source1" type=\'video/mp4; codecs="avc1.42E01E, mp4a.40.2"\' /><source id="source2" type=\'video/webm; codecs="vp8, vorbis"\' /><source id="source3" type=\'video/ogg; codecs="theora, vorbis"\' /></video><div style="" id="videobox-nav"><a href="#" id="videobox-nav-btnPrev"></a><a href="#" id="videobox-nav-btnNext"></a></div><div id="videobox-loading"><a href="#" id="videobox-loading-link"><img src="' + settings.imageLoading + '"></a></div></div></div><div id="videobox-container-video-data-box"><div id="videobox-container-video-data"><div id="videobox-video-details"><span id="videobox-video-details-caption"></span><span id="videobox-video-details-currentNumber"></span></div><div id="videobox-secNav"><a href="#" id="videobox-secNav-btnClose"><img src="' + settings.imageBtnClose + '"></a></div></div></div></div>');	
+			$('body').append('<div id="jquery-overlay"></div><div id="jquery-videobox"><div id="videobox-container-video-box"><div id="videobox-container-video"><video autoplay="" controls="" id="videobox-video"><source id="source1" type=\'video/mp4; codecs="avc1.42E01E, mp4a.40.2"\' /><source id="source2" type=\'video/webm; codecs="vp8, vorbis"\' /><source id="source3" type=\'video/ogg; codecs="theora, vorbis"\' /></video><div style="" id="videobox-nav"><a href="#" id="videobox-nav-btnPrev"></a><a href="#" id="videobox-nav-btnNext"></a></div><div id="videobox-loading"><a href="#" id="videobox-loading-link"><img src="' + settings.imageLoading + '"></a></div></div></div><div id="videobox-container-video-data-box"><div id="videobox-container-video-data"><div id="videobox-video-details"><span id="videobox-video-details-caption"></span><span id="videobox-video-details-currentNumber"></span></div><div id="videobox-secNav"><a href="#" id="videobox-secNav-btnClose"><img src="' + settings.imageBtnClose + '"></a></div></div></div></div>');	
 			// Get page sizes
 			var arrPageSizes = ___getPageSize();
 			// Style overlay and show it
@@ -223,7 +227,6 @@
 				_show_video_data();
 				_set_navigation();
 			});
-			_preload_neighbor_videos();
 		};
 		/**
 		 * Show the video information
@@ -354,20 +357,7 @@
 				}
 			}
 		}
-		/**
-		 * Preload prev and next videos being showed
-		 *
-		 */
-		function _preload_neighbor_videos() {
-			if ( (settings.videoArray.length -1) > settings.activeVideo ) {
-				objNext = new Image();
-				objNext.src = settings.videoArray[settings.activeVideo + 1][0];
-			}
-			if ( settings.activeVideo > 0 ) {
-				objPrev = new Image();
-				objPrev.src = settings.videoArray[settings.activeVideo -1][0];
-			}
-		}
+		
 		/**
 		 * Remove jQuery videoBox plugin HTML markup
 		 *
