@@ -221,7 +221,9 @@
 			$('#videobox-loading').hide();
 			$('#videobox-video').fadeIn(function() {
 				_show_video_data();
-				_set_navigation();
+				if (settings.navigation) {
+					_set_navigation();
+				}
 			});
 		};
 		/**
