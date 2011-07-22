@@ -143,12 +143,8 @@
 				top:	arrPageScroll[1] + (arrPageSizes[3] / 10),
 				left:	arrPageScroll[0]
 			}).show();
-			// Assigning click events in elements to close overlay
-			$('#jquery-overlay,#jquery-videobox').click(function() {
-				_finish();									
-			});
-			// Assign the _finish function to videobox-loading-link and videobox-secNav-btnClose objects
-			$('#videobox-loading-link,#videobox-secNav-btnClose').click(function() {
+			// Assign the _finish function to videobox-secNav-btnClose objects
+			$('#videobox-secNav-btnClose').click(function() {
 				_finish();
 				return false;
 			});
